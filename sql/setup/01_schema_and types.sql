@@ -1,3 +1,4 @@
+-- Active: 1771963368675@@127.0.0.1@5432@de_portfolio
 create schema if not exists raw_data;
 create schema if not exists staging;
 create schema if not exists analytics;
