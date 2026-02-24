@@ -4,3 +4,6 @@ venv,
 __pycache__/,
 data/*.csv,
 .vscode/,
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
