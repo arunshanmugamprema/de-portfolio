@@ -1,0 +1,5 @@
+venv,
+.env,
+*.pvc,
+__pycache__/,
+data/*.csv,
