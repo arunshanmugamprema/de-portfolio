@@ -42,4 +42,37 @@ create table if not exists staging.weather_daily (
 );
 
 
+INSERT INTO raw_data.weather_raw
+    (id, city, country_code, temp_c, humidity_pct, wind_kmh, condition,recorded_at)
+VALUES
+    (1009, 'London',    'GB', 12.5, 111,1112, 'cloudy', '2024-01-01 12:00:00');
 
+--Verify TIMESTAMPTZ vs TIMESTAMP behaviour by inserting with different timezone offsets
+INSERT INTO raw_data.weather_raw (
+  city, country_code, temp_c, humidity_pct, wind_kmh, condition, recorded_at
+)
+VALUES
+('Chicago','US', 5.2, 60, 10.3, 'Cloudy', '2026-02-25 10:00:00-06'),
+('Berlin','DE', 3.1, 75, 12.0, 'Rain',   '2026-02-25 17:00:00+01');
+
+
+SELECT *FROM raw_data.weather_raw;
+
+-- create a new database and switch to it for the next part of the setup
+create database stock_market_dw;
+use stock_market_dw;
+
+-- create schemas again in the new database
+create schema if not exists raw_data;
+create schema if not exists staging;
+create schema if not exists analytics;
+
+--create a new table for stock prices in bronze layer
+create table if not exists raw_data.stock_prices_raw(
+    symbol text not null,
+    price numeric(10,2),
+    volume bigint,
+    recorded_at timestamptz not null default now(),
+    payload jsonb,
+    unique(symbol, recorded_at)
+);
